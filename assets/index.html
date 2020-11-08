@@ -16,6 +16,8 @@
       <h1>Verify Serverless Demo</h1>
 
       <br clear="all" />
+
+      <h3>Mobile</h3>
       <form>
         <div class="form-row">
           <div class="col">
@@ -60,7 +62,7 @@
               </select>
             </div>
             <div class="form-group col-md-3">
-              <button id="send_code" type="button" class="btn btn-danger" onclick="sendCode('sms')">Get SMS Code</button>
+              <button id="send_code" type="button" class="btn btn-danger" onclick="sendCode('sms')">Send SMS</button>
             </div>
             <div class="form-group col-md-2">
               <button id="call_code" type="button" class="btn btn-danger" onclick="sendCode('call')">Call Code</button>
@@ -73,7 +75,27 @@
           <div id="result_sendCode" style="color:green;font-weight:bold;margin:20px;"></div>
         </div>
 
+        <h3>Email</h3>
+        
+        <div class="form-row">
+          <div class="col">
+            <form>
+              <div class="form-row">
+                <div class="col">
+                <input type="email" class="form-control" id="email" aria-describedby="" value="rshaw@twilio.com" placeholder="">
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="form-group col-md-3">
+            <button id="send_code" type="button" class="btn btn-danger" onclick="sendCode('email')">Send Email</button>
+          </div>
+        </div>
+
         <hr />
+
+        <h3 style="margin-top:40px;">Verify Code</h3>
+
         <div class="form-row">
           <div class="col">
             <input type="text" id="confirm_code" class="form-control" id="verify_code" placeholder="">
@@ -81,8 +103,8 @@
 
           <div class="col">
             <button type="button" class="btn btn-primary" onclick="confirmCode()">Check Verify Code</button>
-
-             <div id="result_confirmCode" style="color:green;font-weight:bold;padding:10px;"></div>
+            <input type="text" id="channel" value="" style="display:none;" />
+            <div id="result_confirmCode" style="color:green;font-weight:bold;padding:10px;"></div>
           </div>
         </div>
 
@@ -109,6 +131,16 @@
 
         $("#result_sendCode").text('sending request');
         
+        var to = '';
+
+        if (channel == 'email'){
+          to = $('#email').val();
+        }else{
+          to = $('#phonenumber').val();
+        }
+
+        $('#channel').val(channel);
+
         var settings = {
           "url": "/verify_bootstrap_sendcode",
           "method": "POST",
@@ -117,7 +149,7 @@
             "Content-Type": "application/x-www-form-urlencoded"
           },
           "data": {
-            "to": $('#phonenumber').val(),
+            "to": to,
             "locale": $('#locale').val(),
             "channel": channel
           }
@@ -134,6 +166,14 @@
 
         $("#result_confirmCode").text('sending request');
 
+        var to = "";
+
+        if ($('#channel').val() == 'email'){
+          to = $('#email').val();
+        }else{
+          to = $('#phonenumber').val();
+        }
+
         var settings = {
           "url": "/verify_bootstrap_confirm",
           "method": "POST",
@@ -142,7 +182,7 @@
             "Content-Type": "application/x-www-form-urlencoded"
           },
           "data": {
-            "to": $('#phonenumber').val(),
+            "to": to,
             "code": $('#confirm_code').val()
           }
         };
