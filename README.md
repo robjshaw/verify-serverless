@@ -1,6 +1,8 @@
 # verify-serverless
 
-A simple demo of Twilio's Verify call and sms functionality.
+A simple demo of Twilio's Verify call, email and sms functionality.
+
+![preview](https://github.com/robjshaw/verify-serverless/blob/master/assets/verify_screen.png?raw=true)
 
 ## Technology used
  * [Twilio Serverless Toolkit](https://www.twilio.com/docs/labs/serverless-toolkit)
