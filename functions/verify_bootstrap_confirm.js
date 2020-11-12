@@ -10,5 +10,9 @@ exports.handler = function(context, event, callback) {
 		.then(verification_check => {
 			console.log(verification_check.status);
 			callback(null, verification_check);
+		})
+		.catch( err => {
+			console.log(err);
+			callback(err);
 		});
 };

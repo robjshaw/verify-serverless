@@ -9,5 +9,9 @@ exports.handler = function(context, event, callback) {
                     locale : event.locale,
                     channel: event.channel
                })
-       .then(verification => callback(null,verification));
+       .then(verification => callback(null,verification))
+       .catch( err => {
+          console.log(err);
+          callback(err);
+     });
   };
