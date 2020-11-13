@@ -88,6 +88,7 @@
             </form>
           </div>
           <div class="form-group col-md-3">
+            <button id="send_code" type="button" class="btn btn-info" onclick="sendValidation()">Validate Email</button>
             <button id="send_code" type="button" class="btn btn-danger" onclick="sendCode('email')">Send Email</button>
           </div>
         </div>
@@ -135,7 +136,8 @@
 
         if (channel == 'email'){
           to = $('#email').val();
-        }else{
+        }
+        else{
           to = $('#phonenumber').val();
         }
 
@@ -193,10 +195,36 @@
           $("#result_confirmCode").text(response.status);
         });
       }
+
+      function sendValidation() {
+        $("#result_sendCode").text('sending email validation');
+        
+        var to = '';
+
+        to = $('#email').val();
+
+        var settings = {
+          "url": "/validate_email",
+          "method": "POST",
+          "timeout": 0,
+          "headers": {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          "data": {
+            "email": to
+          }
+        };
+
+        $.ajax(settings).done(function (response) {
+          console.log(response);
+          $("#log_result").val(JSON.stringify(response, null, 2));
+          $("#result_sendCode").text('email validated');
+        });
+      }
     </script>
 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
   </body>
-</html>
+</html>ls
